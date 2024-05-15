@@ -6,6 +6,7 @@ const SignUpPage = () => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
+    mobile: "",
     password: "",
     confirmPassword: "",
   });
@@ -20,9 +21,9 @@ const SignUpPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(userData);
-    axios.post("http://localhost:8080/api/signup", userData).then(resp => {
-        alert(resp.data.message);
-    })
+    axios.post("http://localhost:8080/signup", userData).then((resp) => {
+      alert(resp.data.message);
+    });
   };
   return (
     <div className="sign-up-container">
@@ -42,6 +43,13 @@ const SignUpPage = () => {
             value={userData.email}
             onChange={inputChangeHandler}
             placeholder="Enter email"
+          />
+          <input
+            type="text"
+            name="mobile"
+            value={userData.mobile}
+            onChange={inputChangeHandler}
+            placeholder="Enter mobile number"
           />
           <input
             type="password"
