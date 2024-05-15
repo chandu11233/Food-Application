@@ -48,7 +48,7 @@ const ManageOrder = () => {
     setProduct(prod);
   };
 
-  const dicrement = (id, name, img, description, price, quantity) => {
+  const decrement = (id, name, img, description, price, quantity) => {
     const prod = {
       id: id,
       name: name,
@@ -92,7 +92,7 @@ const ManageOrder = () => {
                     <div className="text-center">
                       <button
                         onClick={() =>
-                          dicrement(
+                          decrement(
                             pd.id,
                             pd.name,
                             pd.img,
