@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./SignUpPage.css";
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -20,9 +22,10 @@ const SignUpPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(userData);
     axios.post("http://localhost:8080/signup", userData).then((resp) => {
-      alert(resp.data.message);
+      console.log(resp.data);
+      if (resp.data.status === '200') navigate("/home");
+      else alert("Email already exists.");
     });
   };
   return (
@@ -68,7 +71,7 @@ const SignUpPage = () => {
           <div className="buttons">
             <button type="submit">sign up</button>
             <p className="login-text">Already have an account?</p>
-            <button disabled="disabled">sign in</button>
+            <button onClick={() => navigate("/signin")}>sign in</button>
           </div>
         </form>
       </div>
