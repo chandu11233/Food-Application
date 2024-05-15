@@ -19,7 +19,7 @@ const Navbar = () => {
                     <NavLink to="/home" >Home</NavLink>
                     <NavLink to="/order" >Order</NavLink>
                     <NavLink to="/manageOrder">My Cart<span className='count-number'>{length}</span></NavLink>
-                    <NavLink to="/home">Sign in/Sign up</NavLink>
+                    <NavLink to="/signup">Sign in/Sign up</NavLink>
                 </div>
             </div>
         </div >
