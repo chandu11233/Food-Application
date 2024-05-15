@@ -7,6 +7,7 @@ import NotFound from './components/NotFound/NotFound';
 import Service from './components/Service/Service';
 import Address from './components/Address/Address';
 import SignUpPage from './components/SignUp/SignUpPage';
+import SignInPage from './components/SignIn/SignInPage';
 import './index.css';
 
 export const foodstore = createContext();
@@ -44,6 +45,7 @@ useEffect(() => {
             <Route path='/order' element={<Service />} />
             <Route path='/manageOrder' element={<ManageOrder />} />
             <Route path='/address' element={<Address />} />
+            <Route path='/signin' element={<SignInPage />} />
             <Route path='/signup' element={<SignUpPage />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
