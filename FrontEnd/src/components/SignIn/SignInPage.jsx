@@ -21,7 +21,10 @@ const SignInPage = () => {
     e.preventDefault();
     axios.post("http://localhost:8080/signin", userData).then((resp) => {
       console.log(resp.data);
-      if (resp.data.status === '200') navigate("/home");
+      if (resp.data.email){
+        localStorage.setItem("loginToken", resp.data.email)
+        navigate("/home");
+      }
       else alert(resp.data.message);
     });
   };

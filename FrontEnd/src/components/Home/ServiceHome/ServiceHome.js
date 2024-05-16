@@ -10,10 +10,10 @@ const ServiceHome = () => {
     <div>
       <div className="gallery">
         <h1>Gallery</h1>
-        {gallery.length > 1 ? (
+        {gallery.length >= 1 ? (
           <div className="grids">
             {gallery.map((pd) => (
-              <Product key={pd.id} product={pd}></Product>
+              <Product key={pd.id} product={pd} clickable={true}></Product>
             ))}
           </div>
         ) : (

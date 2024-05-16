@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Product from "../Product/Product";
 import Footer from "../Footer/Footer";
-import "./Service.css";
+import "./OrderPage.css";
 import { foodstore } from "../../App";
 
 import axios from "axios";
 
 const Service = () => {
+  const navigate = useNavigate();
   const [foodType, setFoodType] = useState("All");
   const { food, setCart } = useContext(foodstore);
   const [foodCart, setFoodCart] = useState({});
@@ -35,11 +37,18 @@ const Service = () => {
       .post("http://localhost:3001/cart", fooditem)
       .then((resp) => {
         console.log(resp.data);
+        return;
       })
       .catch((error) => {
         alert("item already added to cart")
+        return;
       });
   };
+
+  const handleOrderNow = (id, name, img, description, price) => {
+    handleAddToCart(id, name, img, description, price);
+    navigate("/address");
+  }
 
   useEffect(() => {
     fetch("http://localhost:3001/cart")
@@ -72,7 +81,7 @@ const Service = () => {
       {catFood.length >= 1 ? (
           <div className="grids">
             {catFood.map((pd) => (
-              <Product key={pd.id} product={pd}>
+              <Product key={pd.id} product={pd} clickable={false}>
                 <div className="priceandbtn">
                   <p className="text-2xl font-bold  text-primary">
                     Price:<span className="text-red">₹{pd.price}</span>
@@ -88,6 +97,18 @@ const Service = () => {
                     className="btn"
                   >
                     Add to cart
+                  </button>
+                  <button
+                    onClick={()=>handleOrderNow(
+                      pd.id,
+                      pd.name,
+                      pd.img,
+                      pd.description,
+                      pd.price
+                    )}
+                    className="btn"
+                  >
+                    Order Now
                   </button>
                 </div>
               </Product>

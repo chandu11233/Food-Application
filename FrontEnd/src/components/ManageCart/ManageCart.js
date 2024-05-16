@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { foodstore } from "../../App";
-import "./ManageOrder.css";
+import "./ManageCart.css";
 import axios from "axios";
 
 const ManageOrder = () => {
@@ -138,17 +138,11 @@ const ManageOrder = () => {
               })}
               <div className="total">
                 <p>
-                  <span>Sub total:</span> ₹{Math.round(total)}
-                </p>
-                <p>
-                  <span>Tax(5%):</span> ₹{Math.round(total * 0.05)}
-                </p>
-                <p>
                   <span>Total:</span> ₹
-                  {Math.round(Math.round(total * 0.05) + total)}
+                  {Math.round(total)}
                 </p>
                 <button onClick={handleOrder} className="pl-btn">
-                  PlaceOrder
+                  Place Order
                 </button>
               </div>
             </div>
