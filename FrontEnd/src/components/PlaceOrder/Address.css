@@ -16,10 +16,6 @@
   text-align: center;
 }
 
-/* .address .leftright .left .payment-details{
-  text-align: center;
-} */
-
 .address .leftright .left .payment-details p{
   font-size: 20px;
 }
@@ -27,6 +23,10 @@
 .address .leftright .left .payment-details p span{
   font-weight: 700;
 } 
+
+.address .leftright .left .payment-details .items-heading{
+  color: orangered;
+}
 
 .address .leftright .right h2 {
   font-size: 45px;

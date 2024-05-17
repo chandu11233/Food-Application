@@ -5,21 +5,20 @@ import Footer from "../Footer/Footer";
 import "./OrderPage.css";
 import { foodstore } from "../../App";
 
-import axios from "axios";
 
 const Service = () => {
   const navigate = useNavigate();
   const [foodType, setFoodType] = useState("All");
-  const { food, setCart } = useContext(foodstore);
-  const [foodCart, setFoodCart] = useState({});
-  const [catFood,setCatFood] = useState([])
+  const { food, cart, setCart } = useContext(foodstore);
+  const [catFood,setCatFood] = useState([]);
+
+  const categories = Array.from(new Set(food.map(f => f.category)));
 
   useEffect(() => {
     if(foodType === "All") setCatFood(food)
     else{
-      fetch(`http://localhost:3001/foodItems/?category=${foodType}`)
-        .then((res) => res.json())
-        .then((data) => setCatFood(data));
+      const categoryFood = food.filter(f => f.category === foodType);
+      setCatFood(categoryFood)
     }
   },[foodType,setCatFood,food])
 
@@ -32,17 +31,19 @@ const Service = () => {
       price: price,
       quantity: 1,
     };
-    setFoodCart(fooditem);
-    axios
-      .post("http://localhost:3001/cart", fooditem)
-      .then((resp) => {
-        console.log(resp.data);
-        return;
-      })
-      .catch((error) => {
-        alert("item already added to cart")
-        return;
-      });
+
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === fooditem.id);
+
+    if (existingItemIndex !== -1) {
+      // If item exists, update its quantity
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].quantity += 1;
+      setCart(updatedCart);
+    } else {
+      // If item does not exist, add it to the cart
+      setCart([...cart, fooditem]);
+    }
+
   };
 
   const handleOrderNow = (id, name, img, description, price) => {
@@ -51,10 +52,8 @@ const Service = () => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:3001/cart")
-      .then((res) => res.json())
-      .then((data) => setCart(data));
-  }, [setCart, foodCart]);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   return (
     <div className="service">
@@ -70,11 +69,11 @@ const Service = () => {
           }}
         >
           <option value="All">All</option>
-          <option value="Biryani">Biryani</option>
-          <option value="Curry">Curry</option>
-          <option value="Noodles">Noodles</option>
-          <option value="Roti">Roti</option>
-          <option value="Snack">Snack</option>
+          {categories.map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
         </select>
       </div>
       <div className="prods">
@@ -84,7 +83,7 @@ const Service = () => {
               <Product key={pd.id} product={pd} clickable={false}>
                 <div className="priceandbtn">
                   <p className="text-2xl font-bold  text-primary">
-                    Price:<span className="text-red">₹{pd.price}</span>
+                    Price:<span className="text-red">₹ {pd.price}</span>
                   </p>
                   <button
                     onClick={()=>handleAddToCart(
