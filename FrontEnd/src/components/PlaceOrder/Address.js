@@ -2,14 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { foodstore } from "../../App";
 import "./Address.css";
-import axios from "axios";
 
 function Address() {
   const { cart, setCart } = useContext(foodstore);
   const [name, setName] = useState("");
   const [pn, setPn] = useState("");
   const [address, setAddress] = useState("");
-  const [ord, setOrd] = useState({});
   const [error, setError] = useState({ err: false, msg: "" });
   const [total, setTotal] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -19,32 +17,20 @@ function Address() {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!name || !pn || !address) {
       setError({ err: true, msg: "Enter all the details." });
     } else {
-      const order = {
-        name: name,
-        pn: pn,
-        address: address,
-        orders: cart,
-      };
-      axios.post("http://localhost:3001/orders", order);
-      cart.forEach((ca) => {
-        axios.delete(`http://localhost:3001/cart/${ca.id}`);
-      });
-      e.preventDefault();
-      setTimeout(() => {
-        setOrd(order);
-      }, 4000);
+      // const order = {
+      //   name: name,
+      //   pn: pn,
+      //   address: address,
+      //   orders: cart,
+      // };
+      setCart([]);
       setSuccessModal(!successModal);
     }
   };
-  useEffect(() => {
-    fetch("http://localhost:3001/cart")
-      .then((res) => res.json())
-      .then((data) => setCart(data));
-  }, [setCart, ord]);
 
   useEffect(() => {
     let t = 0;
@@ -109,6 +95,14 @@ function Address() {
         <div className="left">
           <h2>Payment Details</h2>
           <div className="payment-details">
+            <h3 className="items-heading">Items</h3>
+            {cart.map((item) => {
+              return (
+                <p>
+                  {item.name}-{item.quantity}
+                </p>
+              );
+            })}
             <p>
               Total payable amount:
               <span> ₹ {Math.round(total)}</span>

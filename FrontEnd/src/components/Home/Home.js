@@ -1,36 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Footer from "../Footer/Footer";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import heroImg from "../../img/hero--img.svg";
 import ServiceHome from "./ServiceHome/ServiceHome";
 import "./Home.css";
-import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate();
-  // const [name, setName] = useState("");
-  // useEffect(() => {
-  //   axios.get("http://localhost:8080/api/endpoint").then(res => {
-  //     alert(res.data.message);
-  //   })
-  // },[])
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-  //   axios.post("http://localhost:8080/login",{
-  //     name: name
-  //   }).then(res => {
-  //     console.log(res);
-  //     alert(res.data.message);
-  //   })
-  // }
   return (
     <div>
       <div className="home-content">
         <div className="home-left">
-          {/* <form onSubmit={submitHandler}>
-            <input type="text" onChange={(e) => setName(e.target.value)}/>
-            <button type="submit">submit</button>
-          </form>  */}
           <h1>Delivery Service</h1>
           <p>
             Now you can get your delivery as fast as possible through our

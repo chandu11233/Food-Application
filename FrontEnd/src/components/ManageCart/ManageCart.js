@@ -2,31 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { foodstore } from "../../App";
 import "./ManageCart.css";
-import axios from "axios";
 
 const ManageOrder = () => {
   const navigate = useNavigate();
-  const [product, setProduct] = useState({});
   const { cart, setCart } = useContext(foodstore);
   const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    axios
-      .put(`http://localhost:3001/cart/${product.id}`, product)
-      .then((resp) => {
-        console.log(resp.data);
-      })
-      .catch((error) => {
-        console.log(product);
-        console.log(error);
-      });
-  }, [product]);
-
-  useEffect(() => {
-    fetch("http://localhost:3001/cart")
-      .then((res) => res.json())
-      .then((data) => setCart(data));
-  }, [setCart, product]);
 
   useEffect(() => {
     let t = 0;
@@ -36,36 +16,23 @@ const ManageOrder = () => {
     setTotal(t);
   }, [cart]);
 
-  const increment = (id, name, img, description, price, quantity) => {
-    const prod = {
-      id: id,
-      name: name,
-      img: img,
-      description: description,
-      price: price,
-      quantity: quantity + 1,
-    };
-    setProduct(prod);
-  };
-
-  const decrement = (id, name, img, description, price, quantity) => {
-    const prod = {
-      id: id,
-      name: name,
-      img: img,
-      description: description,
-      price: price,
-      quantity: quantity - 1,
-    };
-    if (prod.quantity <= 0) {
-      axios.delete(`http://localhost:3001/cart/${id}`);
+  const updateQuantity = (id, newQuantity) => {
+    if(newQuantity < 1){
+      handleDelete(id);
+      return;
     }
-    setProduct(prod);
+    const updatedCart = cart.map((item) => {
+      if (item.id === id) {
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
+    setCart(updatedCart);
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3001/cart/${id}`);
-    setProduct({})
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart(updatedCart);
   };
 
   const handleOrder = () => {
@@ -91,32 +58,14 @@ const ManageOrder = () => {
                     </div>
                     <div className="text-center">
                       <button
-                        onClick={() =>
-                          decrement(
-                            pd.id,
-                            pd.name,
-                            pd.img,
-                            pd.description,
-                            pd.price,
-                            pd.quantity
-                          )
-                        }
+                        onClick={() => updateQuantity(pd.id, pd.quantity - 1)}
                         className="btn"
                       >
                         -
                       </button>
                       <b>{pd.quantity}</b>
                       <button
-                        onClick={() =>
-                          increment(
-                            pd.id,
-                            pd.name,
-                            pd.img,
-                            pd.description,
-                            pd.price,
-                            pd.quantity
-                          )
-                        }
+                        onClick={() => updateQuantity(pd.id, pd.quantity + 1)}
                         className="btn"
                       >
                         +
@@ -138,8 +87,7 @@ const ManageOrder = () => {
               })}
               <div className="total">
                 <p>
-                  <span>Total:</span> ₹
-                  {Math.round(total)}
+                  <span>Total:</span> ₹{Math.round(total)}
                 </p>
                 <button onClick={handleOrder} className="pl-btn">
                   Place Order
@@ -150,9 +98,13 @@ const ManageOrder = () => {
         ) : (
           <div className="noorder">
             <h1>Your cart is empty.</h1>
-            <button onClick={() => {
-              navigate("/order")
-            }}>Order Now</button>
+            <button
+              onClick={() => {
+                navigate("/order");
+              }}
+            >
+              Order Now
+            </button>
           </div>
         )}
       </div>
