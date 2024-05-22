@@ -13,7 +13,7 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;
 
-    @CrossOrigin(value = "http://localhost:3000")
+    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
     @PostMapping("/signup")
     public String requestSign(@RequestBody Customer cus){
         try {
