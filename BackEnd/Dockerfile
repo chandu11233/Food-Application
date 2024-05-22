@@ -1,5 +1,10 @@
-FROM openjdk:latest
-WORKDIR /src
-COPY target/foodServices.jar .
+FROM maven:3.9.6-openjdk:22 AS build
+WORKDIR /app
+COPY . /app/
+RUN mvn clean package
+
+FROM openjdk:22
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","foodServices.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
