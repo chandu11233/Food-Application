@@ -13,12 +13,13 @@ public class LoginController {
     @Autowired
     private SignInService signInService;
 
-    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
+    @CrossOrigin(value = "http://localhost:3000")
+//    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
     @PostMapping("/signin")
     public String requestSign(@RequestBody Customer cus){
         try {
             Customer savedCus = signInService.checkCredentials(cus);
-            if(savedCus.getPassword().equals(cus.getPassword()))  return "{\"status\":\"200\"}";
+            if(savedCus.getPassword().equals(cus.getPassword()))  return "{\"email\":\""+savedCus.getEmail()+"\"}";
             else return "{\"message\":\"Invalid Credentials\"}";
         } catch (NullPointerException e) {
             return "{\"message\":\"User doesn't exist\"}";

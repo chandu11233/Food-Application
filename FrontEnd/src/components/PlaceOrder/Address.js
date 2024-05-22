@@ -44,6 +44,12 @@ function Address() {
     setPaymentMethod(event.target.value);
   };
 
+  useEffect(() => {
+    if (!localStorage.getItem("loginToken")) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   return (
     <div className="address">
       <div className="leftright">
