@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import Axios from "../AxiosController/Axios";
 import { useNavigate } from "react-router-dom";
 import "./SignInPage.css";
 
@@ -19,7 +19,7 @@ const SignInPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/signin", userData).then((resp) => {
+    Axios.post("/signin", userData).then((resp) => {
       console.log(resp.data);
       if (resp.data.email){
         localStorage.setItem("loginToken", resp.data.email)
