@@ -24,9 +24,6 @@
   font-weight: 700;
 } 
 
-.address .leftright .left .payment-details .items-heading{
-  color: orangered;
-}
 
 .address .leftright .right h2 {
   font-size: 45px;
@@ -49,6 +46,7 @@
   width: 100%;
   padding: 5px 10px 5px 10px;
   font-size: 18px;
+  margin: 5px 0px;
 }
 
 .address form textarea {
@@ -56,7 +54,7 @@
   width: 100%;
   padding: 10px;
   font-size: 18px;
-  margin: 10px 0px;
+  margin: 5px 0px;
 }
 
 .address form .btns {
@@ -158,4 +156,15 @@
 .payment-heading{
   font-size: 18px;
   font-weight: 500;
+}
+
+.card-details{
+  display: flex;
+  flex-direction: column;
+}
+
+.card-details input{
+  height: 30px;
+  font-size: 14px;
+  margin: 2.5px 0;
 }

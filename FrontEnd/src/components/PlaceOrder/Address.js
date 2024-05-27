@@ -2,15 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { foodstore } from "../../App";
 import "./Address.css";
+import Axios from "../AxiosController/Axios";
 
 function Address() {
   const { cart, setCart } = useContext(foodstore);
   const [name, setName] = useState("");
   const [pn, setPn] = useState("");
   const [address, setAddress] = useState("");
-  const [error, setError] = useState({ err: false, msg: "" });
   const [total, setTotal] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: "",
+    cvv: "",
+    expDate: "",
+  });
 
   const [successModal, setSuccessModal] = useState(false);
 
@@ -19,14 +23,22 @@ function Address() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !pn || !address) {
-      setError({ err: true, msg: "Enter all the details." });
+      alert("Enter all the details.");
+    } else if (
+      !cardDetails.cardNumber ||
+      !cardDetails.cvv ||
+      !cardDetails.expDate
+    ) {
+      alert("Enter the card details");
     } else {
-      // const order = {
-      //   name: name,
-      //   pn: pn,
-      //   address: address,
-      //   orders: cart,
-      // };
+      Axios.post("/confirmOrder", {
+        email: localStorage.getItem("loginToken"),
+        cardNumber: cardDetails.cardNumber,
+        totalAmount: total,
+        billingName: name,
+        billingPn: pn,
+        billingAddress: address,
+      });
       setCart([]);
       setSuccessModal(!successModal);
     }
@@ -40,15 +52,15 @@ function Address() {
     setTotal(t);
   }, [cart]);
 
-  const handlePaymentChange = (event) => {
-    setPaymentMethod(event.target.value);
-  };
-
   useEffect(() => {
     if (!localStorage.getItem("loginToken")) {
-      navigate("/login");
+      navigate("/signin");
     }
   }, [navigate]);
+
+  const handleCardDetailsChange = (e) => {
+    setCardDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   return (
     <div className="address">
@@ -65,7 +77,6 @@ function Address() {
                 setName(e.target.value);
               }}
             ></input>
-            {error && <p>{error.msg}</p>}
             <input
               type="text"
               placeholder="Phone Number"
@@ -101,40 +112,32 @@ function Address() {
         <div className="left">
           <h2>Payment Details</h2>
           <div className="payment-details">
-            <h3 className="items-heading">Items</h3>
-            {cart.map((item) => {
-              return (
-                <p>
-                  {item.name}-{item.quantity}
-                </p>
-              );
-            })}
             <p>
               Total payable amount:
               <span> ₹ {Math.round(total)}</span>
             </p>
-            <div className="cash-options">
-              <p className="payment-heading">Select Payment Method</p>
-              <div>
-                <input
-                  type="radio"
-                  id="cod"
-                  value="cod"
-                  checked={paymentMethod === "cod"}
-                  onChange={handlePaymentChange}
-                />
-                <label htmlFor="cod">Cash on Delivery</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="upi"
-                  value="upi"
-                  checked={paymentMethod === "upi"}
-                  onChange={handlePaymentChange}
-                />
-                <label htmlFor="upi">UPI</label>
-              </div>
+            <div className="card-details">
+              <input
+                type="text"
+                value={cardDetails.cardNumber}
+                placeholder="Card number"
+                name="cardNumber"
+                onChange={handleCardDetailsChange}
+              ></input>
+              <input
+                type="text"
+                value={cardDetails.cvv}
+                placeholder="CVV"
+                name="cvv"
+                onChange={handleCardDetailsChange}
+              ></input>
+              <input
+                type="text"
+                placeholder="MM/YY"
+                value={cardDetails.expDate}
+                name="expDate"
+                onChange={handleCardDetailsChange}
+              ></input>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import Axios from "../AxiosController/Axios";
 import { useNavigate } from "react-router-dom";
 import "./SignUpPage.css";
 
@@ -22,7 +22,7 @@ const SignUpPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/signup", userData).then((resp) => {
+    Axios.post("/signup", userData).then((resp) => {
       console.log(resp.data);
       if (resp.data.status === '200') navigate("/home");
       else alert("Email already exists.");
