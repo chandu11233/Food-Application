@@ -13,7 +13,7 @@ public class LoginController {
     @Autowired
     private SignInService signInService;
 
-    @CrossOrigin(value = "http://localhost:3000")
+    @CrossOrigin(value = "http://40.76.111.161:3000")
 //    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
     @PostMapping("/signin")
     public String requestSign(@RequestBody Customer cus){

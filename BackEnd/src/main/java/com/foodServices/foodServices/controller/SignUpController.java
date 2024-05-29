@@ -18,7 +18,7 @@ public class SignUpController {
     @Autowired
     private SendEmailService sendEmailService;
 
-    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
+    @CrossOrigin(value = "http://40.76.111.161:3000")
     @PostMapping("/signup")
     public String requestSign(@RequestBody Customer cus){
         try {
