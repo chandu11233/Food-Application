@@ -23,8 +23,10 @@ const SignUpPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     Axios.post("/signup", userData).then((resp) => {
-      console.log(resp.data);
-      if (resp.data.status === '200') navigate("/home");
+      if (resp.data.email){
+        localStorage.setItem("loginToken", resp.data.email);
+        navigate("/home");
+      }
       else alert("Email already exists.");
     });
   };
