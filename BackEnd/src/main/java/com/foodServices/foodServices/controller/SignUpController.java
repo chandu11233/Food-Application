@@ -25,7 +25,7 @@ public class SignUpController {
         try {
             Customer savedCus = signUpService.saveDetails(cus);
             sendEmailService.sendEmail(savedCus.getEmail(), "You have been registered for Express Delivery.", "Successful registration");
-            return "{\"status\":\"200\"}";
+            return "{\"email\":\""+savedCus.getEmail()+"\"}";
         } catch (IllegalArgumentException e) {
             return "{\"status\":\"203\"}";
         }
