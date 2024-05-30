@@ -19,8 +19,8 @@ public class SignUpController {
     @Autowired
     private SendEmailService sendEmailService;
 
-    @CrossOrigin(value = "http://40.76.111.161:3000")
     @PostMapping("/signup")
+    @CrossOrigin(value = "http://40.76.111.161:3000")
     public String requestSign(@RequestBody Customer cus){
         try {
             Customer savedCus = signUpService.saveDetails(cus);

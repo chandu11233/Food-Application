@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @Autowired
     private SignInService signInService;
-
-    @CrossOrigin(value = "http://40.76.111.161:3000")
-//    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
+    
     @PostMapping("/signin")
+    @CrossOrigin(value = "http://40.76.111.161:3000")
     public String requestSign(@RequestBody Customer cus){
         try {
             Customer savedCus = signInService.checkCredentials(cus);
