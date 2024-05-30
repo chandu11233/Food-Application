@@ -15,7 +15,7 @@ public class LoginController {
     private SignInService signInService;
     
     @PostMapping("/signin")
-    @CrossOrigin(value = "http://40.76.111.161:3000")
+    @CrossOrigin(value = "http://51.8.113.58:3000")
     public String requestSign(@RequestBody Customer cus){
         try {
             Customer savedCus = signInService.checkCredentials(cus);

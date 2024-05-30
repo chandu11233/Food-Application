@@ -17,7 +17,7 @@ public class OrderController {
 
 //    @CrossOrigin(value = "https://food-application-g15z.onrender.com")
     @PostMapping("/confirmOrder")
-    @CrossOrigin(value = "http://40.76.111.161:3000")
+    @CrossOrigin(value = "http://51.8.113.58:3000")
     public String sendConfirmationEmail(@RequestBody Order order){
         String body = "Your order has been placed successfully. Billing address is "+order.getBillingName()+", "+order.getBillingPn()+", "+order.getBillingAddress()+". "+"Total amount is "+order.getTotalAmount()+". Transaction is done via card with card number "+order.getCardNumber();
         sendEmailService.sendEmail(order.getEmail(), body, "Order placed successfully");
