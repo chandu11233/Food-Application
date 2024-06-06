@@ -20,7 +20,7 @@ public class SignUpController {
     private SendEmailService sendEmailService;
 
     @PostMapping("/signup")
-    @CrossOrigin(value = "http://48.216.213.216:3000")
+    @CrossOrigin(value = "http://20.3.131.150:3000")
     public String requestSign(@RequestBody Customer cus){
         try {
             Customer savedCus = signUpService.saveDetails(cus);
