@@ -22,7 +22,7 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "mobile")
+    @Column(name = "mobile_number")
     private String mobile;
 
     @Column(name = "password")
